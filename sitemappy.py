@@ -30,11 +30,10 @@ class SiteMap:
         self.seen_nodes = {self.starting_url: 1}
         self.explored = {}  # explored for bfs
         self.queue = [self.starting_url]  # queue for bfs
-        self.stop_flag = False  # flag that stops while loop
         self.adjacency_list = [] # adjacency list representation of pages
         self.iter = 0 # iteration number for bfs
         # timer
-        self.json_time = 0
+        self.run_time = 0
         self.start_time = 0
         self.end_time = 0
         if self.local_only:
@@ -148,8 +147,7 @@ class SiteMap:
     # Append the execution time
     def get_time(self, start, end):
         t = round(end - start, 2)
-        self.json_time = t
-        return t
+        self.run_time = t
 
 
 # a node containing the links a url contains
