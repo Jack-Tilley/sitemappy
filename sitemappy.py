@@ -41,8 +41,10 @@ class SiteMap:
             self.end_url_index = len(base_url) - 1
         else:
             self.end_url_index = -2  # this needs to be fixed
+        # contains pointers to SiteNode instances where key is url, value is pointer to SiteNode
+        self.map_info = {}
 
-        # setting default values for all class members of SiteNode class
+        # setting default values for class members of SiteNode class
         SiteNode.dynamically_generated = self.dynamic_pages
         SiteNode.dyna_path = self.path
         SiteNode.base_url = self.base_url
@@ -53,8 +55,9 @@ class SiteMap:
         # gets all links from the html of that page
         this_node = SiteNode(url)
         soup = BeautifulSoup(this_node.html, "html.parser")
+        title = soup.find("title")
         links = soup.find_all("a")
-
+        
         # loops through each link we found earlier
         # creates a new node if the format is valid
         for link in links:
@@ -87,6 +90,10 @@ class SiteMap:
             
             #  adds new node to our seen collection, inc times seen
             this_node.update_connections(new_node_url)
+            # gives the node its title datamember
+            this_node.set_title(title)
+            ## gives the node its ip
+            # this_node.set_ip()
             # if we haven't yet seen this url
             if new_node_url not in self.queue and new_node_url not in self.explored:
                 # adds new node to queue to be explore
@@ -99,8 +106,10 @@ class SiteMap:
         self.this_map[this_node.curr_url] = this_node.connections
         # adds current node to our explored dictionary
         self.explored[this_node.curr_url] = 1
-        # updates our json output to include this node // adjacency
+        # updates our adj list to include this node
         self.update_adjacency_list(this_node)
+        # updates our map info with pointer to new node
+        self.map_info[this_node.curr_url] = this_node
 
     # bfs to find all nodes from the given url
     def create_map(self, total_iterations=None):
@@ -129,16 +138,16 @@ class SiteMap:
 
     # updates adjacency list with new node
     def update_adjacency_list(self, this_node):
-        this_node.adj_list_json["url"] = this_node.curr_url
+        this_node.adj_list["url"] = this_node.curr_url
         url_links = [{"url_link": key, "times_linked": val}
                      for key, val in this_node.connections.items()]
-        this_node.adj_list_json["url_links"] = url_links
-        # this_node.adj_list_json["url_links"] = this_node.connections
-        # this_node.adj_list_json["files"] = this_node.files
-        # this_node.adj_list_json["ip"] = this_node.ip
-        # this_node.adj_list_json["html"] = this_node.html
+        this_node.adj_list["url_links"] = url_links
+        # this_node.adj_list["url_links"] = this_node.connections
+        # this_node.adj_list["files"] = this_node.files
+        # this_node.adj_list["ip"] = this_node.ip
+        # this_node.adj_list["html"] = this_node.html
 
-        self.adjacency_list.append(this_node.adj_list_json)
+        self.adjacency_list.append(this_node.adj_list)
 
     # returns the map we have created
     def get_map(self):
@@ -158,22 +167,22 @@ class SiteNode:
     dyna_path = None
     base_url = None
 
-    def __init__(self, curr_url, html=None, bfs_level=0, link_level=0):
+    def __init__(self, curr_url, html=None):
         self.curr_url = curr_url  # this nodes url
         self.connections = {}  # this nodes outgoing links
         self.files = []  # the filenames in this nodes html
         self.ip = ""  # this nodes ip
-        self.adj_list_json = {}  # this node formattted to json for adjacency list
-        # self.json_links = [] # this nodes links for d3js
-        # self.json_node = {} # this node for d3js
-        self.bfs_level = bfs_level  # level of bfs the node was discovered on
-        self.link_level = link_level  # number of links away from base url
+        self.adj_list = {}  # this node formattted to json for adjacency list
         self.html = html if html is not None else self.get_html(
             self.curr_url)  # this nodes html
+        self.title = ""
 
     # converts domain name into ip
     def set_ip(self):
-        self.ip = socket.gethostbyname(self.curr_url)
+        try:
+            self.ip = socket.gethostbyname(self.curr_url)
+        except UnicodeError:
+            self.ip = ""
 
     # gets html dynamically or non dynamically
     # dynamically contains js loaded elements
@@ -186,11 +195,11 @@ class SiteNode:
             html = requests.get(self.curr_url).text
         return html
 
-    # gets the link level of the given node
-    def get_link_level(self):
-        # ending_url = url[base_url_index:]
-        # return ending_url.count("/")
-        pass
+    def set_title(self, title):
+        self.title = title
+
 
     def update_connections(self, new_node_url):
         self.connections[new_node_url] = self.connections.get(new_node_url, 0) + 1
+
+
