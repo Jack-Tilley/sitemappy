@@ -1,5 +1,7 @@
 # sitemappy
-A sitemap generator tool that creates an adjacency list for the analysis and visualization of websites.
+A sitemap generator tool that creates a representation of site's network graph for the analysis and visualization of websites.
+
+sitemappy allows you to quickly generate sitemaps and easily transform them to the most popularly used graph formats including directed and undirected adjacency lists, adjacency matrices, and node and edge tuples. There's no need to manually reformat graphs to different types as sitemappy can do it for you.
 
 #### Example Usage:
 ```py
@@ -63,3 +65,7 @@ Installing collected packages: sitemappy
 Successfully installed sitemappy-0.x
 ```
 
+## Documentation
+Documentation can be found inside the code in the form of comments. 
+
+(Standalone documentation coming soon...)
