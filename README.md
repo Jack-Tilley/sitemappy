@@ -1,7 +1,7 @@
 # sitemappy
 A sitemap generator tool that creates an adjacency list for the analysis and visualization of websites.
 
-
+### Example usage
 ```py
 from sitemappy import SiteNode, SiteMap
 
@@ -10,7 +10,7 @@ siteMap.create_map(total_iterations=3)
 
 print(siteMap.adjacency_list)
 ```
-
+### output
 ```
 [
     {
