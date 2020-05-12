@@ -52,3 +52,13 @@ print(siteMap.adjacency_list)
     }
 ]
 ```
+
+## sitemappy Module Installation
+The recommended way to install `sitemappy` is via pip
+```
+$ pip install sitemappy
+Collecting sitemappy
+...
+Installing collected packages: sitemappy
+Successfully installed sitemappy-0.x
+```
