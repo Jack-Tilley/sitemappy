@@ -55,7 +55,40 @@ print(siteMap.adjacency_list)
 
 ## sitemappy Module Installation
 The recommended way to install `sitemappy` is via pip
-```bat
+```console
+$ pip install sitemappy
+Collecting sitemappy
+...
+Installing collected packages: sitemappy
+Successfully installed sitemappy-0.x
+```
+
+```sh
+$ pip install sitemappy
+Collecting sitemappy
+...
+Installing collected packages: sitemappy
+Successfully installed sitemappy-0.x
+```
+
+
+```bash
+$ pip install sitemappy
+Collecting sitemappy
+...
+Installing collected packages: sitemappy
+Successfully installed sitemappy-0.x
+```
+
+```zsh
+$ pip install sitemappy
+Collecting sitemappy
+...
+Installing collected packages: sitemappy
+Successfully installed sitemappy-0.x
+```
+
+```shell
 $ pip install sitemappy
 Collecting sitemappy
 ...
