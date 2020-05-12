@@ -55,7 +55,7 @@ print(siteMap.adjacency_list)
 
 ## sitemappy Module Installation
 The recommended way to install `sitemappy` is via pip
-```php
+```powershell
 $ pip install sitemappy
 Collecting sitemappy
 ...
