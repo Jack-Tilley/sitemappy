@@ -1,7 +1,7 @@
 # sitemappy
 A sitemap generator tool that creates an adjacency list for the analysis and visualization of websites.
 
-#### Example Usage
+#### Example Usage:
 ```py
 from sitemappy import SiteNode, SiteMap
 
@@ -10,7 +10,7 @@ siteMap.create_map(total_iterations=3)
 
 print(siteMap.adjacency_list)
 ```
-#### Output
+#### Output:
 ```js
 [
     {
@@ -54,7 +54,7 @@ print(siteMap.adjacency_list)
 ```
 
 ## sitemappy Module Installation
-The recommended way to install `sitemappy` is via pip
+The recommended way to install `sitemappy` is via pip:
 ```console
 $ pip install sitemappy
 Collecting sitemappy
@@ -63,35 +63,3 @@ Installing collected packages: sitemappy
 Successfully installed sitemappy-0.x
 ```
 
-```sh
-$ pip install sitemappy
-Collecting sitemappy
-...
-Installing collected packages: sitemappy
-Successfully installed sitemappy-0.x
-```
-
-
-```bash
-$ pip install sitemappy
-Collecting sitemappy
-...
-Installing collected packages: sitemappy
-Successfully installed sitemappy-0.x
-```
-
-```zsh
-$ pip install sitemappy
-Collecting sitemappy
-...
-Installing collected packages: sitemappy
-Successfully installed sitemappy-0.x
-```
-
-```shell
-$ pip install sitemappy
-Collecting sitemappy
-...
-Installing collected packages: sitemappy
-Successfully installed sitemappy-0.x
-```
