@@ -10,13 +10,13 @@ import time
 
 # a graph containing the links a website has, links in the form of SiteNode
 class SiteMap:
-    def __init__(self, base_url, path, starting_url=None, this_map=None, local_only=None, dynamic_pages=None):
+    def __init__(self, base_url, path, starting_url=None, adjacency_list=None, local_only=None, dynamic_pages=None):
         self.base_url = base_url  # initial url. ex: https://www.youtube.com
         self.path = path  # path to chrome driver
         self.starting_url = starting_url
         # setting default values
         # dictionary containing UrlNodes
-        self.this_map = this_map if this_map is not None else {}
+        self.adjacency_list = adjacency_list if adjacency_list is not None else {}
         # where the crawl should start from
         self.starting_url = starting_url if starting_url is not None else base_url
         # should we stay local to this site or allow crossover to other sites
@@ -30,7 +30,6 @@ class SiteMap:
         self.seen_nodes = {self.starting_url: 1}
         self.explored = {}  # explored for bfs
         self.queue = [self.starting_url]  # queue for bfs
-        self.adjacency_list = [] # adjacency list representation of pages
         self.iter = 0 # iteration number for bfs
         # timer
         self.run_time = 0
@@ -103,11 +102,10 @@ class SiteMap:
         # this_node.get_link_level()
 
         # add the node we just explored to our graph
-        self.this_map[this_node.curr_url] = this_node.connections
+        self.adjacency_list[this_node.curr_url] = this_node.connections
         # adds current node to our explored dictionary
         self.explored[this_node.curr_url] = 1
         # updates our adj list to include this node
-        self.update_adjacency_list(this_node)
         # updates our map info with pointer to new node
         self.map_info[this_node.curr_url] = this_node
 
@@ -136,49 +134,31 @@ class SiteMap:
         self.end_time = time.perf_counter()
         self.get_time(self.start_time, self.end_time)
 
-    # updates adjacency list with new node
-    def update_adjacency_list(self, this_node):
-        # this_node.adj_list["url"] = this_node.curr_url
-        # url_links = [{"url_link": key, "times_linked": val}
-        #              for key, val in this_node.connections.items()]
-        # this_node.adj_list["url_links"] = url_links
-        # # this_node.adj_list["url_links"] = this_node.connections
-        # # this_node.adj_list["files"] = this_node.files
-        # # this_node.adj_list["ip"] = this_node.ip
-        # # this_node.adj_list["html"] = this_node.html
-        # self.adjacency_list.append(this_node.adj_list)
-
-        this_node.adj_list[this_node.curr_url] = this_node.connections
-        self.adjacency_list.append(this_node.adj_list)
-
-
     # returns the map we have created
-    def get_map(self):
-        return self.this_map
+    def get_adjacency_list(self):
+        return self.adjacency_list
 
     # Append the execution time
     def get_time(self, start, end):
         t = round(end - start, 2)
         self.run_time = t
-        
+
     # format weighted adj list to unweighted adj form
     def get_unweighted_adjacency_list(self):
         unweight_adj_list = {}
-        for url in self.adjacency_list:
-            for key, vals in url.items():
-                links = []
-                for val in vals.keys():
-                    links.append(val)
-                unweight_adj_list[key] = links
+        for key, vals in self.adjacency_list.items():
+            links = []
+            for val in vals.keys():
+                links.append(val)
+            unweight_adj_list[key] = links
         return unweight_adj_list
 
     # format weighted adj list to nodes and edges form
     def get_nodes_and_edges(self):
         nodes_and_edges = []
-        for url in self.adjacency_list:
-            for key, vals in url.items():
-                for val in vals.keys():
-                    nodes_and_edges.append((key, val))
+        for key, vals in self.adjacency_list.items():
+            for val in vals.keys():
+                nodes_and_edges.append((key, val))
         return nodes_and_edges
 
     # format weighted adj list to adj matrix form
@@ -196,12 +176,11 @@ class SiteMap:
         for i, node in enumerate(headers):
             index_dict[node] = i
 
-        for url in self.adjacency_list:
-            for key, vals in url.items():
-                key_index = index_dict[key]
-                for node, times_linked in vals.items():
-                    link_index = index_dict[node]
-                    adjacency_matrix[key_index][link_index] = times_linked       
+        for key, vals in self.adjacency_list.items():
+            key_index = index_dict[key]
+            for node, times_linked in vals.items():
+                link_index = index_dict[node]
+                adjacency_matrix[key_index][link_index] = times_linked       
         return (adjacency_matrix, headers)
 
     # format weighted adj list to json format
