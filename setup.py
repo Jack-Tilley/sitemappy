@@ -8,7 +8,7 @@ setup(
   author = 'Jack Tilley',                   # Type in your name
   author_email = 'tilley.e.jack@gmail.com',      # Type in your E-Mail
   url = 'https://github.com/Jack-Tilley/sitemappy',   # Provide either the link to your github or to your website
-  download_url = 'https://github.com/Jack-Tilley/sitemappy/archive/v_02.tar.gz',    # I explain this later on
+  download_url = 'https://github.com/Jack-Tilley/sitemappy/archive/v_03.tar.gz',    # I explain this later on
   keywords = ['python3', 'webscrape', 'sitemap', 'network'],   # Keywords that define your package best
   install_requires=[            
           'selenium',
