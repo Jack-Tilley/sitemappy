@@ -1,7 +1,7 @@
 # sitemappy
 A sitemap generator tool that creates a representation of site's network graph for the analysis and visualization of websites.
 
-sitemappy allows you to quickly generate sitemaps and easily transform them to the most popularly used graph formats including directed and undirected adjacency lists, adjacency matrices, and node and edge tuples. There's no need to manually reformat graphs to different types as sitemappy can do it for you.
+sitemappy allows you to quickly generate sitemaps and easily transform them to the most popularly used graph formats including weighted and unweighted adjacency lists, adjacency matrices, and node and edge tuples. There's no need to manually reformat graphs to different types as sitemappy can do it for you.
 
 #### Example Usage:
 ```py
@@ -54,6 +54,22 @@ print(siteMap.adjacency_list)
     }
 ]
 ```
+
+## Different Graph Types
+There are many different ways that graphs can be represented in code, and unfortunately, computers are very picky about which graph representation type you use. Luckily for you, sitemappy's built-in features allow you to use whichever graph representation type you want whenver you want.
+
+```py
+from sitemappy import SiteNode, SiteMap
+
+siteMap = SiteMap("https://google.com", "optional/path")
+siteMap.create_map(total_iterations=3)
+
+weighted_adj_list = siteMap.adjacency_list
+unweighted_adj_list = siteMap.get_unweighted_adjacency_list()
+nodes_and_links = siteMap.get_nodes_and_links()
+adj_matrix = siteMap.get_adj_matrix()
+```
+
 
 ## sitemappy Module Installation
 The recommended way to install `sitemappy` is via pip:
