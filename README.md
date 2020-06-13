@@ -75,6 +75,6 @@ Successfully installed sitemappy-0.x
 ```
 
 ## Documentation
-Documentation can be found inside the code in the form of comments. 
+Documentation can currently be found inside the code in the form of comments. 
 
 (Standalone documentation coming soon...)
