@@ -231,4 +231,7 @@ class SiteNode:
     def update_connections(self, new_node_url):
         self.connections[new_node_url] = self.connections.get(new_node_url, 0) + 1
 
+    def get_keywords(self):
+        pass
+
 
